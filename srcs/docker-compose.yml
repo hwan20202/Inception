@@ -1,0 +1,39 @@
+version : '3'
+
+services:
+  nginx:
+    build: ./requirements/nginx
+    restart: on-failure
+    ports:
+      - 443:443
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/wordpress
+    tty: true
+    stdin_open: true 
+
+  wordpress:
+    build: ./requirements/wordpress
+    restart: on-failure
+    expose:
+      - 9000
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/wordpress
+    tty: true
+    stdin_open: true 
+
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      device: /home/jeokim/data/wordpress
+      o: bind
+      type: none
+
+networks:
+  inception:
+    driver: bridge
