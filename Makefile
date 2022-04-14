@@ -1,6 +1,7 @@
 DOCKER_COMPOSE_FILE	=	srcs/docker-compose.yml
-DIR	=	data/wordpress\
-		#data/musql
+DIR	=	/home/jeokim/data/wordpress\
+		/home/jeokim/data/mariadb
+
 
 all: $(DIR)
 	docker-compose -f $(DOCKER_COMPOSE_FILE) up -d --build
@@ -18,6 +19,16 @@ clean: stop
 
 ps:
 	docker-compose -f $(DOCKER_COMPOSE_FILE) ps
+
+open_n:
+	docker exec -it srcs_nginx_1 /bin/bash
+
+open_wp:
+	docker exec -it srcs_wordpress_1 /bin/bash
+
+log:
+	docker logs srcs_nginx_1
+	docker logs srcs_wordpress_1
 
 .PHONY : all re stop clean ps
 
